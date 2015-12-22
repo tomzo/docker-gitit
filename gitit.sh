@@ -10,6 +10,7 @@ cd $GITIT_REPOSITORY
 
 if [ ! -f $GITIT_CONF ]; then
   gitit --print-default-config > $GITIT_CONF
+  chown gitit:gitit $GITIT_CONF
 fi
 
 exec chpst -u gitit gitit -f $GITIT_CONF
