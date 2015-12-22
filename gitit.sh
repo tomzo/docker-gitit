@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+GITIT_REPOSITORY="${GITIT_REPOSITORY:-/gitit}"
+GITIT_CONF="${GITIT_CONF:-gitit.conf}"
+
+mkdir -p $GITIT_REPOSITORY
+cd $GITIT_REPOSITORY
+
+if [ ! -f $GITIT_CONF ]; then
+  gitit --print-default-config > $GITIT_CONF
+fi
+
+exec chpst -u gitit gitit -f $GITIT_CONF
