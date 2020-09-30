@@ -7,7 +7,10 @@ RUN apt-get update &&\
  apt-get install -y git mime-support pandoc-data graphviz\
  texlive texlive-latex-extra lmodern
 
-RUN cabal update &&\
+RUN cabal update
+
+RUN git clone --depth 1 --branch 0.12.1 https://github.com/jgm/gitit.git &&\
+  cd gitit &&\
   cabal install gitit --global
 
 RUN useradd -ms /bin/bash gitit
