@@ -7,18 +7,18 @@ RUN apt-get update &&\
  apt-get install -y git mime-support pandoc-data graphviz\
  texlive texlive-latex-extra lmodern
 
-RUN cabal update
+#RUN cabal update
+#
+#RUN git clone --depth 1 --branch 0.12.1 https://github.com/jgm/gitit.git /tmp/gitit
+#
+#RUN cd /tmp/gitit &&\
+#  pwd &&\
+#  ls -lah
+#
+#RUN cd /tmp/gitit &&\
+#  cabal install --global
 
-RUN git clone --depth 1 --branch 0.12.1 https://github.com/jgm/gitit.git /tmp/gitit
-
-RUN cd /tmp/gitit &&\
-  pwd &&\
-  ls -lah
-
-RUN cd /tmp/gitit &&\
-  cabal install --global
-
-RUN useradd -ms /bin/bash gitit
+RUN useradd -ms /bin/bash ${GITIT_USER:-gitit}
 
 RUN mkdir /etc/service/gitit
 ADD gitit.sh /etc/service/gitit/run
