@@ -11,7 +11,7 @@ RUN cabal update
 
 RUN git clone --depth 1 --branch 0.12.1 https://github.com/jgm/gitit.git &&\
   cd gitit &&\
-  cabal install gitit --global
+  cabal install --global
 
 RUN useradd -ms /bin/bash gitit
 
