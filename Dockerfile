@@ -9,12 +9,13 @@ RUN apt-get update &&\
 
 RUN cabal update
 
-RUN git clone --depth 1 --branch 0.12.1 https://github.com/jgm/gitit.git
+RUN git clone --depth 1 --branch 0.12.1 https://github.com/jgm/gitit.git /tmp/gitit
 
-RUN cd gitit
+RUN cd /tmp/gitit &&\
+  pwd &&\
+  ls -lah
 
-RUN pwd &&\
-  ls -lah &&\
+RUN cd /tmp/gitit &&\
   cabal install --global
 
 RUN useradd -ms /bin/bash gitit
