@@ -1,4 +1,14 @@
-FROM phusion/baseimage:0.9.17
+#FROM phusion/baseimage:0.9.17
+FROM phusion/baseimage:18.04-1.0.0-amd64
+
+ENV GIT_COMMITTER_NAME gitit
+ENV GIT_COMMITTER_EMAIL gitit@example.com
+ENV GITIT_CONF gitit.conf
+ENV GITIT_REPOSITORY /gitit
+
+ENV GITIT_USER gitit
+ENV GITIT_GROUP gitit
+ENV SSH_AUTHORIZED_KEYS /${GITIT_REPOSITORY}/authorized_keys
 
 RUN apt-get update &&\
  apt-get install -y haskell-platform
@@ -6,6 +16,9 @@ RUN apt-get update &&\
 RUN apt-get update &&\
  apt-get install -y git mime-support pandoc-data graphviz\
  texlive texlive-latex-extra lmodern
+
+RUN apt-get update &&\
+  apt-get install -y gitit
 
 #RUN cabal update
 #
@@ -18,7 +31,8 @@ RUN apt-get update &&\
 #RUN cd /tmp/gitit &&\
 #  cabal install --global
 
-RUN useradd -ms /bin/bash ${GITIT_USER:-gitit}
+RUN useradd -ms /bin/bash ${GITIT_USER}
+RUN mkdir ${GITIT_REPOSITORY}
 
 RUN mkdir /etc/service/gitit
 ADD gitit.sh /etc/service/gitit/run
@@ -30,12 +44,8 @@ ADD fix-uid-gid.sh /usr/bin/fix-uid-gid
 
 EXPOSE 5001 22
 
-ENV GIT_COMMITTER_NAME gitit
-ENV GIT_COMMITTER_EMAIL gitit@example.com
-ENV GITIT_CONF gitit.conf
-ENV GITIT_REPOSITORY /gitit
 
-RUN usermod -p '*' gitit
+RUN usermod -p '*' ${GITIT_USER}
 RUN rm -f /etc/service/sshd/down
 RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 ADD ssh_setup.sh /etc/my_init.d/00_ssh_setup.sh

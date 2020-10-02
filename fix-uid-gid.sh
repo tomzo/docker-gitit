@@ -2,19 +2,19 @@
 
 # These are usually known at the time when building the image
 DIRECTORY=$GITIT_REPOSITORY
-GITIT_USER=${GITIT_USER:-gitit}
-GITIT_GROUP=${GITIT_GROUP:-gitit}
+USER=${GITIT_USER}
+GROUP=${GITIT_GROUP}
 
 if [ -z "$DIRECTORY" ]; then
   echo "Directory not specified"
   exit 1;
 fi
 
-if [ -z "$GITIT_USER" ]; then
+if [ -z "$USER" ]; then
   echo "Username not specified"
   exit 1;
 fi
-if [ -z "$GITIT_GROUP" ]; then
+if [ -z "$GROUP" ]; then
   echo "Groupname not specified"
   exit 1;
 fi
@@ -24,24 +24,24 @@ if [ ! -d "$DIRECTORY" ]; then
 fi
 
 ret=false
-getent passwd $GITIT_USER >/dev/null 2>&1 && ret=true
+getent passwd $USER >/dev/null 2>&1 && ret=true
 
 if ! $ret; then
-    echo "User $GITIT_USER does not exist"
+    echo "User $USER does not exist"
     exit 1;
 fi
 ret=false
-getent passwd $GITIT_GROUP >/dev/null 2>&1 && ret=true
+getent passwd $GROUP >/dev/null 2>&1 && ret=true
 if ! $ret; then
-    echo "Group $GITIT_GROUP does not exist"
+    echo "Group $GROUP does not exist"
     exit 1;
 fi
 
 NEWUID=$(ls --numeric-uid-gid -d $DIRECTORY | awk '{ print $3 }')
 NEWGID=$(ls --numeric-uid-gid -d $DIRECTORY | awk '{ print $4 }')
 
-usermod -u $NEWUID $GITIT_USER
-groupmod -g $NEWGID $GITIT_GROUP
+usermod -u $NEWUID $USER
+groupmod -g $NEWGID $GROUP
 
-find /home/gitit -user $GITIT_USER -exec chown -h $NEWUID {} \;
-find /home/gitit -group $GITIT_GROUP -exec chgrp -h $NEWGID {} \;
+find /home/gitit -user $USER -exec chown -h $NEWUID {} \;
+find /home/gitit -group $GROUP -exec chgrp -h $NEWGID {} \;
