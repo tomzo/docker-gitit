@@ -10,15 +10,18 @@ ENV GITIT_USER gitit
 ENV GITIT_GROUP gitit
 ENV SSH_AUTHORIZED_KEYS /${GITIT_REPOSITORY}/authorized_keys
 
-RUN apt-get update &&\
- apt-get install -y haskell-platform
+RUN DEBIAN_FRONTEND=noninteractive\
+    apt-get update &&\
+    apt-get install -y haskell-platform
 
-RUN apt-get update &&\
- apt-get install -y git mime-support pandoc-data graphviz\
- texlive texlive-latex-extra lmodern
+RUN DEBIAN_FRONTEND=noninteractive\
+    apt-get update &&\
+    apt-get install -y git mime-support pandoc-data graphviz\
+    texlive texlive-latex-extra lmodern
 
-RUN apt-get update &&\
-  apt-get install -y gitit
+RUN DEBIAN_FRONTEND=noninteractive\
+    apt-get update &&\
+    apt-get install -y gitit
 
 #RUN cabal update
 #
@@ -31,8 +34,10 @@ RUN apt-get update &&\
 #RUN cd /tmp/gitit &&\
 #  cabal install --global
 
-RUN useradd -ms /bin/bash ${GITIT_USER}
+RUN useradd -Ums /bin/bash ${GITIT_USER}
 RUN mkdir ${GITIT_REPOSITORY}
+RUN chown -R ${GITIT_USER} ${GITIT_REPOSITORY} &&\
+    chgrp -R ${GITIT_GROUP} ${GITIT_REPOSITORY}
 
 RUN mkdir /etc/service/gitit
 ADD gitit.sh /etc/service/gitit/run

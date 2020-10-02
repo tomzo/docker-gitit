@@ -1,6 +1,6 @@
 #!/bin/bash
 
-/usr/bin/fix-uid-gid $GITIT_REPOSITORY
+/usr/bin/fix-uid-gid
 rc=$?; if [[ $rc != 0 ]]; then exit $rc; fi
 
 /sbin/my_init
