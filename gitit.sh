@@ -7,12 +7,12 @@ CONF=${GITIT_CONF}
 USER=${GITIT_USER}
 GROUP=${GITIT_GROUP}
 
-mkdir -p $DIRECTORY
-cd $DIRECTORY
+cd ${DIRECTORY}
 
-if [ ! -f $CONF ]; then
-  gitit --print-default-config > $CONF
-  chown ${USER} ${GROUP} $CONF
+if [ ! -f ${CONF} ]; then
+  gitit --print-default-config > ${CONF}
+  chown ${USER} ${CONF}
+  chgrp ${GROUP} ${CONF}
 fi
 
 exec chpst -u ${USER} ${GROUP} -f ${CONF}
