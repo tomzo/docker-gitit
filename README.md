@@ -10,7 +10,7 @@ Additional packages are installed:
 ## Quickstart
 
 ```
-docker run --rm --name gitit -p 80:5001 tomzo/gitit
+docker run --rm --name gitit -p 80:5001 matthewddunlap/gitit
 ```
 
 ## Usage
@@ -22,7 +22,7 @@ set to match with host-mounted directory.
 
 Assuming `~/gitit.wiki` has existing git repository. You can start server with
 ```
-docker run --rm --name gitit -p 80:5001 -v ~/gitit.wiki:/gitit tomzo/gitit
+docker run --rm --name gitit -p 80:5001 -v ~/gitit.wiki:/gitit matthewddunlap/gitit
 ```
 
 Image can be used this way to host an always running server or
@@ -34,7 +34,7 @@ Container runs ssh server by default so that you can push and pull to gitit repo
 Assuming that `gitit.example.com` is the address of the server running gitit container
 started with something like:
 ```
-docker run --rm --name gitit -p 80:5001 -p 2201:22 -v ~/gitit.wiki:/gitit tomzo/gitit
+docker run --rm --name gitit -p 80:5001 -p 2201:22 -v ~/gitit.wiki:/gitit matthewddunlap/gitit
 ```
 To deal with custom port in remote address you can add
 something like this in `~/.ssh/config`
