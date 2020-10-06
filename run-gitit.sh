@@ -9,4 +9,8 @@ GROUP=${GITIT_GROUP}
 
 cd ${DIRECTORY}
 
+if [ -d ${GITIT_REPOSITORY}/cache ]; then
+  rm -rf ${GITIT_REPOSITORY}/cache/*
+fi
+
 exec chpst -u ${USER} ${GROUP} -f ${CONF}

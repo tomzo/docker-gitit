@@ -39,20 +39,6 @@ if [ ! -d "$DIRECTORY" ]; then
   exit 1;
 fi
 
-#ret=false
-#getent passwd $USER >/dev/null 2>&1 && ret=true
-#if ! $ret; then
-#    echo "User $USER does not exist"
-#    exit 1;
-#fi
-#
-#ret=false
-#getent passwd $GROUP >/dev/null 2>&1 && ret=true
-#if ! $ret; then
-#    echo "Group $GROUP does not exist"
-#    exit 1;
-#fi
-
 if [ "${USER}" != "root" ]; then
     usermod -u $NEW_UID $USER
     groupmod -g $NEW_GID $GROUP
