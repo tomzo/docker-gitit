@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 DIRECTORY=${GITIT_REPOSITORY}
 CONF=${GITIT_CONF}
 USER=${GITIT_USER}
@@ -15,4 +13,8 @@ if [ ! -f ${CONF} ]; then
   chgrp ${GROUP} ${CONF}
 fi
 
-exec chpst -u ${USER} ${GROUP} -f ${CONF}
+FILE="${CONF}"
+
+LINE="port: ${GITIT_PORT}"
+grep -qxF -- "$LINE" "$FILE" || sed -i "/^port: [[:digit:]]*/a ${LINE}" $FILE
+

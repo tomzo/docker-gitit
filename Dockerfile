@@ -11,12 +11,13 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     texlive \
     texlive-latex-extra
 
-ADD create_user.sh /etc/my_init.d/01_create_user
-ADD create_directory.sh /etc/my_init.d/03_create_directory
-ADD fix_uid_gid.sh /etc/my_init.d/09_fix_uid_gid
-ADD ssh_setup.sh /etc/my_init.d/11_ssh_setup.sh
+ADD setup-user_group.sh /etc/my_init.d/01_setup-user_group
+ADD setup-directory.sh /etc/my_init.d/03_setup-directory
+ADD setup-uid_gid.sh /etc/my_init.d/05_setup-uid_gid
+ADD setup-ssh.sh /etc/my_init.d/07-setup_ssh.sh
+ADD setup-gitit.sh /etc/my_init.d/11_setup-gitit.sh
 
-ADD gitit.sh /etc/service/gitit/run
+ADD run-gitit.sh /etc/service/gitit/run
 
 RUN rm -f /etc/service/sshd/down
 
@@ -28,6 +29,7 @@ ENV GITIT_USER gitit
 ENV GITIT_GROUP gitit
 ENV SSH_AUTHORIZED_KEYS ${GITIT_REPOSITORY}/authorized_keys
 ENV SSH_PORT 22
+ENV GITIT_PORT 5002
 
 CMD ["/sbin/my_init"]
 
